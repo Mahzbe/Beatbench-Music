@@ -23,10 +23,10 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             border-radius: 8px;
         }
-        #login-container, #music-container {
+        #login-container, #music-container, #register-container {
             display: none;
         }
-        #login-container {
+        #login-container, #register-container {
             display: block;
         }
         .form-group {
@@ -36,7 +36,7 @@
             display: block;
             margin-bottom: 5px;
         }
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -127,6 +127,33 @@
             </div>
             <div id="login-error" class="error"></div>
         </form>
+        <p>Don't have an account? <a href="#" id="register-link">Register here</a></p>
+    </div>
+
+    <div id="register-container" class="container" style="display: none;">
+        <h1>Register</h1>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" required>
+            </div>
+            <div class="form-group">
+                <label for="userType">Register as:</label>
+                <select id="userType">
+                    <option value="listener">Listener</option>
+                    <option value="artist">Artist</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+            <div id="register-error" class="error"></div>
+        </form>
+        <p>Already have an account? <a href="#" id="login-link">Login here</a></p>
     </div>
 
     <div id="music-container" class="container">
@@ -148,9 +175,8 @@
     <script type="module">
         // Import necessary Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-        import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
         // Firebase configuration
         const firebaseConfig = {
@@ -166,105 +192,86 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const storage = getStorage(app);
         const db = getFirestore(app);
 
+        // Switch between login and registration forms
+        document.getElementById('register-link').addEventListener('click', () => {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('register-container').style.display = 'block';
+        });
+
+        document.getElementById('login-link').addEventListener('click', () => {
+            document.getElementById('register-container').style.display = 'none';
+            document.getElementById('login-container').style.display = 'block';
+        });
+
+        // Register new user
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const userType = document.getElementById('userType').value;
+            const registerError = document.getElementById('register-error');
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Store user type in Firestore
+                await setDoc(doc(db, 'users', user.uid), { userType });
+
+                // Switch to music view after registration
+                document.getElementById('register-container').style.display = 'none';
+                document.getElementById('music-container').style.display = 'block';
+            } catch (error) {
+                registerError.textContent = error.message;
+            }
+        });
+
         // Handle login
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form');
-            const musicContainer = document.getElementById('music-container');
-            const loginContainer = document.getElementById('login-container');
-            const searchInput = document.getElementById('search');
-            const musicList = document.getElementById('music-list');
-            const audioPlayer = document.getElementById('audioPlayer');
-            const audioSource = document.getElementById('audioSource');
-            const downloadBtn = document.getElementById('download-btn');
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             const loginError = document.getElementById('login-error');
-            const downloadError = document.getElementById('download-error');
 
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                const user = auth.currentUser;
 
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    loginContainer.style.display = 'none';
-                    musicContainer.style.display = 'block';
-                    loadMusic();
-                } catch (error) {
-                    loginError.textContent = error.message;
-                }
-            });
+                // Get user type from Firestore
+                const docRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const userType = docSnap.data().userType;
 
-            // Load music and handle UI
-            async function loadMusic() {
-                const storageRef = ref(storage, 'music/');
-                const listResult = await listAll(storageRef);
-
-                musicList.innerHTML = '';
-                for (const itemRef of listResult.items) {
-                    const url = await getDownloadURL(itemRef);
-                    const item = document.createElement('div');
-                    item.classList.add('music-item');
-                    item.innerHTML = `
-                        <button onclick="playMusic('${url}')">Play ${itemRef.name}</button>
-                        <button onclick="purchaseMusic('${url}')">Purchase</button>
-                    `;
-                    musicList.appendChild(item);
-                }
-
-                searchInput.addEventListener('input', (e) => {
-                    const query = e.target.value.toLowerCase();
-                    document.querySelectorAll('.music-item').forEach(item => {
-                        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
-                    });
-                });
-
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        downloadBtn.style.display = 'block';
-                        downloadBtn.addEventListener('click', () => downloadMusic());
-                    } else {
-                        downloadBtn.style.display = 'none';
+                    // Display appropriate view based on user type
+                    if (userType === 'artist') {
+                        alert('Welcome Artist! You can upload and manage your music.');
+                    } else if (userType === 'listener') {
+                        alert('Welcome Listener! Enjoy browsing and listening to music.');
                     }
-                });
-            }
 
-            // Play music
-            window.playMusic = function(url) {
-                audioSource.src = url;
-                audioPlayer.load();
-                audioPlayer.play();
-            }
-
-            // Purchase music
-            window.purchaseMusic = function(url) {
-                // Implement purchase logic here
-                alert('This feature is under development.');
-            }
-
-            // Download music
-            async function downloadMusic() {
-                if (auth.currentUser) {
-                    const storageRef = ref(storage, 'music/');
-                    const listResult = await listAll(storageRef);
-                    const url = await getDownloadURL(listResult.items[0]); // Example: Download first track
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'music.mp3'; // Customize as needed
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('music-container').style.display = 'block';
                 } else {
-                    downloadError.textContent = 'You must be logged in to download.';
+                    loginError.textContent = 'User type not found.';
+                }
+            } catch (error) {
+                loginError.textContent = error.message;
+            }
+        });
+
+        // Handle Auth State Changes
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const docRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('music-container').style.display = 'block';
                 }
             }
-
-            // Advertise button action
-            document.getElementById('advertise-btn').addEventListener('click', () => {
-                window.location.href = 'https://your-advertise-form-url.com'; // Replace with your form URL
-            });
         });
     </script>
 </body>
