@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beatbench Music Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        #login-container, #music-container {
+            display: none;
+        }
+        #login-container {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        #music-container {
+            display: none;
+        }
+        #music-list {
+            list-style: none;
+            padding: 0;
+        }
+        .music-item {
+            margin-bottom: 10px;
+        }
+        .music-item button {
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .music-item button:hover {
+            background-color: #218838;
+        }
+        #search {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        audio {
+            margin-top: 20px;
+            width: 100%;
+        }
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            width: 100%;
+        }
+        #advertise-btn {
+            padding: 10px 20px;
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #advertise-btn:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container" class="container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+            <div id="login-error" class="error"></div>
+        </form>
+    </div>
+
+    <div id="music-container" class="container">
+        <h1>Music Library</h1>
+        <input type="text" id="search" placeholder="Search music...">
+        <ul id="music-list"></ul>
+        <audio id="audioPlayer" controls>
+            <source id="audioSource" src="" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <button id="download-btn" style="display: none;">Download</button>
+        <div id="download-error" class="error"></div>
+    </div>
+
+    <footer>
+        <button id="advertise-btn" onclick="window.location.href='https://your-advertise-form-url.com';">Advertise</button>
+    </footer>
+
+    <script type="module">
+        // Import necessary Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+        import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyASXEosLpnWXH3LWUWCl3uJU0IvGkweUk4",
+            authDomain: "beatbench-ac569.firebaseapp.com",
+            projectId: "beatbench-ac569",
+            storageBucket: "beatbench-ac569.appspot.com",
+            messagingSenderId: "664769305832",
+            appId: "1:664769305832:web:f5e53d97f15cd408813d5d",
+            measurementId: "G-T2BTDXK82N"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+        const db = getFirestore(app);
+
+        // Handle login
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const musicContainer = document.getElementById('music-container');
+            const loginContainer = document.getElementById('login-container');
+            const searchInput = document.getElementById('search');
+            const musicList = document.getElementById('music-list');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            const downloadBtn = document.getElementById('download-btn');
+            const loginError = document.getElementById('login-error');
+            const downloadError = document.getElementById('download-error');
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    loginContainer.style.display = 'none';
+                    musicContainer.style.display = 'block';
+                    loadMusic();
+                } catch (error) {
+                    loginError.textContent = error.message;
+                }
+            });
+
+            // Load music and handle UI
+            async function loadMusic() {
+                const storageRef = ref(storage, 'music/');
+                const listResult = await listAll(storageRef);
+
+                musicList.innerHTML = '';
+                for (const itemRef of listResult.items) {
+                    const url = await getDownloadURL(itemRef);
+                    const item = document.createElement('div');
+                    item.classList.add('music-item');
+                    item.innerHTML = `
+                        <button onclick="playMusic('${url}')">Play ${itemRef.name}</button>
+                        <button onclick="purchaseMusic('${url}')">Purchase</button>
+                    `;
+                    musicList.appendChild(item);
+                }
+
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase();
+                    document.querySelectorAll('.music-item').forEach(item => {
+                        item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
+                    });
+                });
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        downloadBtn.style.display = 'block';
+                        downloadBtn.addEventListener('click', () => downloadMusic());
+                    } else {
+                        downloadBtn.style.display = 'none';
+                    }
+                });
+            }
+
+            // Play music
+            window.playMusic = function(url) {
+                audioSource.src = url;
+                audioPlayer.load();
+                audioPlayer.play();
+            }
+
+            // Purchase music
+            window.purchaseMusic = function(url) {
+                // Implement purchase logic here
+                alert('This feature is under development.');
+            }
+
+            // Download music
+            async function downloadMusic() {
+                if (auth.currentUser) {
+                    const storageRef = ref(storage, 'music/');
+                    const listResult = await listAll(storageRef);
+                    const url = await getDownloadURL(listResult.items[0]); // Example: Download first track
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'music.mp3'; // Customize as needed
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    downloadError.textContent = 'You must be logged in to download.';
+                }
+            }
+
+            // Advertise button action
+            document.getElementById('advertise-btn').addEventListener('click', () => {
+                window.location.href = 'https://your-advertise-form-url.com'; // Replace with your form URL
+            });
+        });
+    </script>
+</body>
+</html>
