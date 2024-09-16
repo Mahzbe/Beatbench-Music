@@ -130,7 +130,7 @@
         <p>Don't have an account? <a href="#" id="register-link">Register here</a></p>
     </div>
 
-    <div id="register-container" class="container" style="display: none;">
+    <div id="register-container" class="container">
         <h1>Register</h1>
         <form id="register-form">
             <div class="form-group">
@@ -173,14 +173,12 @@
     </footer>
 
     <script>
-        function handleLoginFormSubmit(event) {
+        document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            const form = event.target;
-            const email = form.querySelector('input[name="email"]').value;
-            const password = form.querySelector('input[name="password"]').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             const loginError = document.getElementById('login-error');
 
-            // Simulate login process
             // Replace with actual login logic
             if (email === "user@example.com" && password === "password") {
                 document.getElementById('login-container').style.display = 'none';
@@ -188,17 +186,15 @@
             } else {
                 loginError.textContent = 'Invalid email or password.';
             }
-        }
+        });
 
-        function handleRegisterFormSubmit(event) {
+        document.getElementById('register-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            const form = event.target;
-            const email = form.querySelector('input[name="register-email"]').value;
-            const password = form.querySelector('input[name="register-password"]').value;
-            const userType = form.querySelector('select[name="userType"]').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const userType = document.getElementById('userType').value;
             const registerError = document.getElementById('register-error');
 
-            // Simulate registration process
             // Replace with actual registration logic
             if (email && password) {
                 document.getElementById('register-container').style.display = 'none';
@@ -206,28 +202,46 @@
             } else {
                 registerError.textContent = 'Registration failed.';
             }
-        }
+        });
 
-        // Switch between login and registration forms
-        document.getElementById('register-link').addEventListener('click', () => {
+        document.getElementById('register-link').addEventListener('click', function() {
             document.getElementById('login-container').style.display = 'none';
             document.getElementById('register-container').style.display = 'block';
         });
 
-        document.getElementById('login-link').addEventListener('click', () => {
+        document.getElementById('login-link').addEventListener('click', function() {
             document.getElementById('register-container').style.display = 'none';
             document.getElementById('login-container').style.display = 'block';
         });
 
-        // Attach event listeners to forms
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', handleLoginFormSubmit);
+        // Example data and functionality for music library
+        const musicList = [
+            { title: "Song 1", src: "song1.mp3" },
+            { title: "Song 2", src: "song2.mp3" }
+        ];
+
+        function updateMusicList() {
+            const list = document.getElementById('music-list');
+            list.innerHTML = '';
+            musicList.forEach((music, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'music-item';
+                listItem.innerHTML = `
+                    ${music.title} <button onclick="playMusic('${music.src}')">Play</button>
+                `;
+                list.appendChild(listItem);
+            });
         }
-        if (registerForm) {
-            registerForm.addEventListener('submit', handleRegisterFormSubmit);
+
+        function playMusic(src) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            audioSource.src = src;
+            audioPlayer.load();
+            audioPlayer.play();
         }
+
+        updateMusicList();
     </script>
 </body>
 </html>
