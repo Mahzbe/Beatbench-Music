@@ -18,15 +18,33 @@
             text-align: center;
         }
         nav {
-            margin: 10px;
+            background-color: #444;
+            color: white;
             padding: 10px;
+            text-align: center;
             position: relative;
+            z-index: 5;
         }
-        .home {
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .nav-buttons button, .nav-buttons a {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .home-button {
             position: absolute;
             top: 15px;
             left: 15px;
-            background-color: #333;
+            background-color: #444;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -34,31 +52,42 @@
             border-radius: 5px;
             z-index: 10;
         }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #333;
-            cursor: pointer;
-        }
         .carousel-container {
-            position: relative;
-            width: 80%;
-            margin: 20px auto;
-        }
-        .carousel {
-            display: flex;
+            width: 100%;
             overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            position: relative;
+        }
+        .carousel-wrapper {
+            display: flex;
             transition: transform 0.5s ease;
         }
         .carousel-item {
             min-width: 100%;
             box-sizing: border-box;
+            padding: 10px;
+            text-align: center;
         }
         .carousel-item iframe {
             width: 100%;
             height: 315px;
+            border: none;
+        }
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .carousel-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
         }
         .show-more {
             display: block;
@@ -126,13 +155,13 @@
         function nextSlide() {
             const slides = document.querySelectorAll('.carousel-item');
             currentIndex = (currentIndex + 1) % slides.length;
-            document.querySelector('.carousel').style.transform = `translateX(-${currentIndex * 100}%)`;
+            document.querySelector('.carousel-wrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
         }
 
         function prevSlide() {
             const slides = document.querySelectorAll('.carousel-item');
             currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            document.querySelector('.carousel').style.transform = `translateX(-${currentIndex * 100}%)`;
+            document.querySelector('.carousel-wrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
         }
 
         window.onload = function() {
@@ -148,17 +177,18 @@
     </header>
 
     <nav>
-        <button class="home" onclick="showHomeScreen()">Home</button>
-        <a href="#" onclick="showSection('retro-movies')">Retro Movies</a>
-        <a href="#" onclick="showSection('documentaries')">Documentaries</a>
-        <a href="#" onclick="showSection('retro-comedy')">Retro Comedy</a>
-        <a href="#" onclick="showSection('kids')">Kids</a>
-        <a href="#">Search</a>
+        <button class="home-button" onclick="showHomeScreen()">Home</button>
+        <div class="nav-buttons">
+            <a href="#" onclick="showSection('retro-movies')">Retro Movies</a>
+            <a href="#" onclick="showSection('documentaries')">Documentaries</a>
+            <a href="#" onclick="showSection('retro-comedy')">Retro Comedy</a>
+            <a href="#" onclick="showSection('kids')">Kids</a>
+        </div>
     </nav>
 
     <div id="home-screen">
         <div class="carousel-container">
-            <div class="carousel">
+            <div class="carousel-wrapper">
                 <!-- Carousel Item 1: Retro Movies -->
                 <div class="carousel-item">
                     <iframe src="https://www.youtube.com/embed/lP2EajpzK-s" frameborder="0" allowfullscreen></iframe>
@@ -183,6 +213,13 @@
                     <button class="show-more" onclick="showMore('kids')">Show More Kids</button>
                 </div>
             </div>
+            <div class="carousel-controls">
+                <button class="carousel-button" onclick="prevSlide()">&#10094;</button>
+                <button class="carousel-button" onclick="nextSlide()">&#10095;</button>
+            </div>
+        </div>
+        <div class="about">
+            Our video content is public domain, free to watch, and offers a nostalgic journey back in time. Enjoy our collection of classic and retro content.
         </div>
     </div>
 
@@ -201,18 +238,15 @@
     <div id="documentaries" class="nav-content">
         <h2>Documentaries</h2>
         <div class="section-header">Explore in-depth documentaries on various topics.</div>
-        <div class="about">Discover insightful documentaries that provide a deeper understanding of historical events and cultural phenomena. All content is public domain, offering free access to valuable information and perspectives.</div>
+        <div class="about">Discover insightful documentaries that provide a deeper understanding of historical events, cultures, and more. All videos are public domain and available for free viewing.</div>
         <iframe src="https://www.youtube.com/embed/F9q125CUk8o" frameborder="0" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/Dz4RiBMTRKw" frameborder="0" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/g7mrqZ5x_oI" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/qEALr2gytdo" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div id="retro-comedy" class="nav-content">
         <h2>Retro Comedy</h2>
-        <div class="section-header">Laugh with classic comedies from the past.</div>
+        <div class="section-header">Laugh with classic comedy films.</div>
         <div class="about">Enjoy a collection of retro comedies that promise to entertain and amuse. These public domain films are available for free and offer a delightful glimpse into comedic history.</div>
         <iframe src="https://www.youtube.com/embed/Xd6ddOlbKp8" frameborder="0" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/VfD_LTad1hE" frameborder="0" allowfullscreen></iframe>
