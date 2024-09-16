@@ -172,27 +172,41 @@
         <button id="advertise-btn" onclick="window.location.href='https://your-advertise-form-url.com';">Advertise</button>
     </footer>
 
-    <script type="module">
-        // Import necessary Firebase functions
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+    <script>
+        function handleLoginFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = form.querySelector('input[name="email"]').value;
+            const password = form.querySelector('input[name="password"]').value;
+            const loginError = document.getElementById('login-error');
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyASXEosLpnWXH3LWUWCl3uJU0IvGkweUk4",
-            authDomain: "beatbench-ac569.firebaseapp.com",
-            projectId: "beatbench-ac569",
-            storageBucket: "beatbench-ac569.appspot.com",
-            messagingSenderId: "664769305832",
-            appId: "1:664769305832:web:f5e53d97f15cd408813d5d",
-            measurementId: "G-T2BTDXK82N"
-        };
+            // Simulate login process
+            // Replace with actual login logic
+            if (email === "user@example.com" && password === "password") {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('music-container').style.display = 'block';
+            } else {
+                loginError.textContent = 'Invalid email or password.';
+            }
+        }
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        function handleRegisterFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = form.querySelector('input[name="register-email"]').value;
+            const password = form.querySelector('input[name="register-password"]').value;
+            const userType = form.querySelector('select[name="userType"]').value;
+            const registerError = document.getElementById('register-error');
+
+            // Simulate registration process
+            // Replace with actual registration logic
+            if (email && password) {
+                document.getElementById('register-container').style.display = 'none';
+                document.getElementById('music-container').style.display = 'block';
+            } else {
+                registerError.textContent = 'Registration failed.';
+            }
+        }
 
         // Switch between login and registration forms
         document.getElementById('register-link').addEventListener('click', () => {
@@ -205,74 +219,15 @@
             document.getElementById('login-container').style.display = 'block';
         });
 
-        // Register new user
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const userType = document.getElementById('userType').value;
-            const registerError = document.getElementById('register-error');
-
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // Store user type in Firestore
-                await setDoc(doc(db, 'users', user.uid), { userType });
-
-                // Switch to music view after registration
-                document.getElementById('register-container').style.display = 'none';
-                document.getElementById('music-container').style.display = 'block';
-            } catch (error) {
-                registerError.textContent = error.message;
-            }
-        });
-
-        // Handle login
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const loginError = document.getElementById('login-error');
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                const user = auth.currentUser;
-
-                // Get user type from Firestore
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const userType = docSnap.data().userType;
-
-                    // Display appropriate view based on user type
-                    if (userType === 'artist') {
-                        alert('Welcome Artist! You can upload and manage your music.');
-                    } else if (userType === 'listener') {
-                        alert('Welcome Listener! Enjoy browsing and listening to music.');
-                    }
-
-                    document.getElementById('login-container').style.display = 'none';
-                    document.getElementById('music-container').style.display = 'block';
-                } else {
-                    loginError.textContent = 'User type not found.';
-                }
-            } catch (error) {
-                loginError.textContent = error.message;
-            }
-        });
-
-        // Handle Auth State Changes
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    document.getElementById('login-container').style.display = 'none';
-                    document.getElementById('music-container').style.display = 'block';
-                }
-            }
-        });
+        // Attach event listeners to forms
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', handleLoginFormSubmit);
+        }
+        if (registerForm) {
+            registerForm.addEventListener('submit', handleRegisterFormSubmit);
+        }
     </script>
 </body>
 </html>
