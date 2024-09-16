@@ -103,9 +103,10 @@
             margin: 20px auto;
             text-align: center;
         }
-        .video-player video {
+        .video-player iframe {
             width: 80%;
             max-width: 800px;
+            height: 450px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -162,7 +163,15 @@
             <img src="docs.jpg" alt="Documentaries">
             <h3>Documentaries</h3>
             <p>Watch insightful and informative documentaries</p>
-            <button>Browse Documentaries</button>
+            <div class="video-player">
+                <!-- YouTube videos embedded here -->
+                <iframe src="https://www.youtube.com/embed/F9q125CUk8o?si=JuD8eqnbIhJcx6Zn" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ?si=VAl8b6XUmFJVortu" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/Dz4RiBMTRKw?si=Z67M1SMq-dBZ3P3R" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys?si=rPReZtr4_JvN3MM7" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/g7mrqZ5x_oI?si=3cJGacIm1YXJ8w2E" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/qEALr2gytdo?si=ZxC5Zsb7ndv1cYaS" frameborder="0" allowfullscreen></iframe>
+            </div>
         </div>
 
         <div class="category">
@@ -171,13 +180,6 @@
             <p>Safe and entertaining content for children</p>
             <button>Browse Kids Shows</button>
         </div>
-    </div>
-
-    <div class="video-player">
-        <video controls>
-            <source src="your-video-file.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
     </div>
 
     <footer class="footer">
