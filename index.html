@@ -25,6 +25,7 @@
             margin: 0 15px;
             text-decoration: none;
             color: #333;
+            cursor: pointer;
         }
         .container {
             display: flex;
@@ -70,8 +71,23 @@
             padding: 10px;
             margin-top: 20px;
         }
+        .nav-content {
+            display: none;
+        }
     </style>
     <script>
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('.nav-content');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+
+            var activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.style.display = 'block';
+            }
+        }
+
         function showMore(section) {
             var hiddenElements = document.querySelectorAll('.' + section + '-more');
             hiddenElements.forEach(function(element) {
@@ -87,197 +103,204 @@
     </header>
 
     <nav>
-        <a href="#">Home</a>
-        <a href="#">Retro Movies</a>
-        <a href="#">Documentaries</a>
-        <a href="#">Retro Comedy</a>
-        <a href="#">Kids</a>
+        <a href="#" onclick="showSection('retro-movies')">Retro Movies</a>
+        <a href="#" onclick="showSection('documentaries')">Documentaries</a>
+        <a href="#" onclick="showSection('retro-comedy')">Retro Comedy</a>
+        <a href="#" onclick="showSection('kids')">Kids</a>
         <a href="#">Search</a>
     </nav>
 
     <div class="container">
         <!-- Retro Movies Section -->
-        <h2>Retro Movies</h2>
+        <div id="retro-movies" class="nav-content">
+            <h2>Retro Movies</h2>
 
-        <!-- Running Forever -->
-        <div class="video-section">
-            <iframe src="https://www.youtube.com/embed/lP2EajpzK-s" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Running Forever</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=lP2EajpzK-s">Public Domain on YouTube</a></p>
+            <!-- Running Forever -->
+            <div class="video-section">
+                <iframe src="https://www.youtube.com/embed/lP2EajpzK-s" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Running Forever</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=lP2EajpzK-s">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <!-- And Then There Were None -->
-        <div class="video-section">
-            <iframe src="https://www.youtube.com/embed/bY3T4nuipkU" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> And Then There Were None</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=bY3T4nuipkU">Public Domain on YouTube</a></p>
+            <!-- And Then There Were None -->
+            <div class="video-section">
+                <iframe src="https://www.youtube.com/embed/bY3T4nuipkU" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> And Then There Were None</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=bY3T4nuipkU">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <!-- See More Button for Retro Movies -->
-        <div class="see-more">
-            <button onclick="showMore('retro-movies')">See More</button>
-        </div>
-
-        <!-- Hidden Retro Movies -->
-        <div class="video-section retro-movies-more hidden">
-            <iframe src="https://www.youtube.com/embed/-8EJ9uhsfQQ" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> The Jungle Book (1942)</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=-8EJ9uhsfQQ">Public Domain on YouTube</a></p>
+            <!-- See More Button for Retro Movies -->
+            <div class="see-more">
+                <button onclick="showMore('retro-movies')">See More</button>
             </div>
-        </div>
 
-        <div class="video-section retro-movies-more hidden">
-            <iframe src="https://www.youtube.com/embed/KrJxbMj8EaE" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Winter Hawk</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=KrJxbMj8EaE">Public Domain on YouTube</a></p>
+            <!-- Hidden Retro Movies -->
+            <div class="video-section retro-movies-more hidden">
+                <iframe src="https://www.youtube.com/embed/-8EJ9uhsfQQ" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> The Jungle Book (1942)</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=-8EJ9uhsfQQ">Public Domain on YouTube</a></p>
+                </div>
+            </div>
+
+            <div class="video-section retro-movies-more hidden">
+                <iframe src="https://www.youtube.com/embed/KrJxbMj8EaE" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Winter Hawk</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=KrJxbMj8EaE">Public Domain on YouTube</a></p>
+                </div>
             </div>
         </div>
 
         <!-- Documentaries Section -->
-        <h2>Documentaries</h2>
+        <div id="documentaries" class="nav-content">
+            <h2>Documentaries</h2>
 
-        <!-- September 11 Attacks Part 3 -->
-        <div class="video-section">
-            <iframe src="https://www.youtube.com/embed/F9q125CUk8o" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> September 11 Attacks, Part 3</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=F9q125CUk8o">Public Domain on YouTube</a></p>
+            <!-- September 11 Attacks Part 3 -->
+            <div class="video-section">
+                <iframe src="https://www.youtube.com/embed/F9q125CUk8o" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> September 11 Attacks, Part 3</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=F9q125CUk8o">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <!-- See More Button for Documentaries -->
-        <div class="see-more">
-            <button onclick="showMore('documentaries')">See More</button>
-        </div>
-
-        <!-- Hidden Documentaries -->
-        <div class="video-section documentaries-more hidden">
-            <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> September 11 Attacks, Part 5</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=BGddnJlJpJQ">Public Domain on YouTube</a></p>
+            <!-- See More Button for Documentaries -->
+            <div class="see-more">
+                <button onclick="showMore('documentaries')">See More</button>
             </div>
-        </div>
 
-        <div class="video-section documentaries-more hidden">
-            <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Patrolling Streets of Baghdad - Iraq War</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=UNjZWAEx8ys">Public Domain on YouTube</a></p>
+            <!-- Hidden Documentaries -->
+            <div class="video-section documentaries-more hidden">
+                <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> September 11 Attacks, Part 5</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=BGddnJlJpJQ">Public Domain on YouTube</a></p>
+                </div>
+            </div>
+
+            <div class="video-section documentaries-more hidden">
+                <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Patrolling Streets of Baghdad - Iraq War</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=UNjZWAEx8ys">Public Domain on YouTube</a></p>
+                </div>
             </div>
         </div>
 
         <!-- Retro Comedy Section -->
-        <h2>Retro Comedy</h2>
+        <div id="retro-comedy" class="nav-content">
+            <h2>Retro Comedy</h2>
 
-        <!-- Buster Keaton - One Week -->
-        <div class="video-section">
-            <iframe src="https://www.youtube.com/embed/Xd6ddOlbKp8" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Buster Keaton - One Week</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=Xd6ddOlbKp8">Public Domain on YouTube</a></p>
+            <!-- Buster Keaton - One Week -->
+            <div class="video-section">
+                <iframe src="https://www.youtube.com/embed/Xd6ddOlbKp8" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Buster Keaton - One Week</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=Xd6ddOlbKp8">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <!-- See More Button for Retro Comedy -->
-        <div class="see-more">
-            <button onclick="showMore('retro-comedy')">See More</button>
-        </div>
-
-        <!-- Hidden Retro Comedy -->
-        <div class="video-section retro-comedy-more hidden">
-            <iframe src="https://www.youtube.com/embed/VfD_LTad1hE" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> The Mouse That Roared</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=VfD_LTad1hE">Public Domain on YouTube</a></p>
+            <!-- See More Button for Retro Comedy -->
+            <div class="see-more">
+                <button onclick="showMore('retro-comedy')">See More</button>
             </div>
-        </div>
 
-        <div class="video-section retro-comedy-more hidden">
-            <iframe src="https://www.youtube.com/embed/RlrZq6oHRZM" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> The Fast Lady (1962)</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=RlrZq6oHRZM">Public Domain on YouTube</a></p>
+            <!-- Hidden Retro Comedy -->
+            <div class="video-section retro-comedy-more hidden">
+                <iframe src="https://www.youtube.com/embed/VfD_LTad1hE" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> The Mouse That Roared</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=VfD_LTad1hE">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <div class="video-section retro-comedy-more hidden">
-            <iframe src="https://www.youtube.com/embed/Aj9oWavyOHM" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> The Boys in Blue</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=Aj9oWavyOHM">Public Domain on YouTube</a></p>
+            <div class="video-section retro-comedy-more hidden">
+                <iframe src="https://www.youtube.com/embed/RlrZq6oHRZM" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> The Fast Lady (1962)</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=RlrZq6oHRZM">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <div class="video-section retro-comedy-more hidden">
-            <iframe src="https://www.youtube.com/embed/pjeDY8wR5ow" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Please Sir!</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=pjeDY8wR5ow">Public Domain on YouTube</a></p>
+            <div class="video-section retro-comedy-more hidden">
+                <iframe src="https://www.youtube.com/embed/Aj9oWavyOHM" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> The Boys in Blue</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=Aj9oWavyOHM">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <div class="video-section retro-comedy-more hidden">
-            <iframe src="https://www.youtube.com/embed/hsiEEOSzUuo" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> A Weekend with Lulu</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=hsiEEOSzUuo">Public Domain on YouTube</a></p>
+            <div class="video-section retro-comedy-more hidden">
+                <iframe src="https://www.youtube.com/embed/pjeDY8wR5ow" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Please Sir!</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=pjeDY8wR5ow">Public Domain on YouTube</a></p>
+                </div>
+            </div>
+
+            <div class="video-section retro-comedy-more hidden">
+                <iframe src="https://www.youtube.com/embed/hsiEEOSzUuo" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> A Weekend with Lulu</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=hsiEEOSzUuo">Public Domain on YouTube</a></p>
+                </div>
             </div>
         </div>
 
         <!-- Kids Section -->
-        <h2>Kids</h2>
+        <div id="kids" class="nav-content">
+            <h2>Kids</h2>
 
-        <!-- The Wind in the Willows -->
-        <div class="video-section">
-            <iframe src="https://www.youtube.com/embed/msM29o87uTs" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> The Wind in the Willows</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=msM29o87uTs">Public Domain on YouTube</a></p>
+            <!-- The Wind in the Willows -->
+            <div class="video-section">
+                <iframe src="https://www.youtube.com/embed/msM29o87uTs" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> The Wind in the Willows</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=msM29o87uTs">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <!-- See More Button for Kids -->
-        <div class="see-more">
-            <button onclick="showMore('kids')">See More</button>
-        </div>
-
-        <!-- Hidden Kids -->
-        <div class="video-section kids-more hidden">
-            <iframe src="https://www.youtube.com/embed/LUexXsF14Z0" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Leo and Tig</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=LUexXsF14Z0">Public Domain on YouTube</a></p>
+            <!-- See More Button for Kids -->
+            <div class="see-more">
+                <button onclick="showMore('kids')">See More</button>
             </div>
-        </div>
 
-        <div class="video-section kids-more hidden">
-            <iframe src="https://www.youtube.com/embed/G_Frl_QRVqs" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Super Bear</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=G_Frl_QRVqs">Public Domain on YouTube</a></p>
+            <!-- Hidden Kids -->
+            <div class="video-section kids-more hidden">
+                <iframe src="https://www.youtube.com/embed/LUexXsF14Z0" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Leo and Tig</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=LUexXsF14Z0">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <div class="video-section kids-more hidden">
-            <iframe src="https://www.youtube.com/embed/83GiOsCO42M" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> King David</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=83GiOsCO42M">Public Domain on YouTube</a></p>
+            <div class="video-section kids-more hidden">
+                <iframe src="https://www.youtube.com/embed/G_Frl_QRVqs" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Super Bear</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=G_Frl_QRVqs">Public Domain on YouTube</a></p>
+                </div>
             </div>
-        </div>
 
-        <div class="video-section kids-more hidden">
-            <iframe src="https://www.youtube.com/embed/8bbj-HKa9js" frameborder="0" allowfullscreen></iframe>
-            <div class="video-details">
-                <p><strong>Title:</strong> Mother Theresa</p>
-                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=8bbj-HKa9js">Public Domain on YouTube</a></p>
+            <div class="video-section kids-more hidden">
+                <iframe src="https://www.youtube.com/embed/83GiOsCO42M" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> King David</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=83GiOsCO42M">Public Domain on YouTube</a></p>
+                </div>
+            </div>
+
+            <div class="video-section kids-more hidden">
+                <iframe src="https://www.youtube.com/embed/8bbj-HKa9js" frameborder="0" allowfullscreen></iframe>
+                <div class="video-details">
+                    <p><strong>Title:</strong> Mother Theresa</p>
+                    <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=8bbj-HKa9js">Public Domain on YouTube</a></p>
+                </div>
             </div>
         </div>
     </div>
