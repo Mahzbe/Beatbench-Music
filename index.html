@@ -5,112 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beatbench Music Platform</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f5f5f5;
-        }
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-        }
-        #login-container, #music-container, #register-container {
-            display: none;
-        }
-        #login-container, #register-container {
-            display: block;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .form-group button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
-        }
-        #music-container {
-            display: none;
-        }
-        #music-list {
-            list-style: none;
-            padding: 0;
-        }
-        .music-item {
-            margin-bottom: 10px;
-        }
-        .music-item button {
-            padding: 10px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .music-item button:hover {
-            background-color: #218838;
-        }
-        #search {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
-        audio {
-            margin-top: 20px;
-            width: 100%;
-        }
-        footer {
-            margin-top: auto;
-            padding: 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            width: 100%;
-        }
-        #advertise-btn {
-            padding: 10px 20px;
-            background-color: #ffc107;
-            color: #000;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #advertise-btn:hover {
-            background-color: #e0a800;
-        }
+        /* Your existing styles */
     </style>
 </head>
 <body>
+    <!-- Your existing HTML structure -->
+    
     <div id="login-container" class="container">
         <h1>Login</h1>
         <form id="login-form">
@@ -173,45 +73,79 @@
     </footer>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const loginError = document.getElementById('login-error');
-
-            // Replace with actual login logic
-            if (email === "user@example.com" && password === "password") {
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('music-container').style.display = 'block';
-            } else {
-                loginError.textContent = 'Invalid email or password.';
-            }
-        });
-
-        document.getElementById('register-form').addEventListener('submit', function(event) {
+        // Function to handle user registration
+        document.getElementById('register-form').addEventListener('submit', async function(event) {
             event.preventDefault();
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
             const userType = document.getElementById('userType').value;
             const registerError = document.getElementById('register-error');
 
-            // Replace with actual registration logic
-            if (email && password) {
-                document.getElementById('register-container').style.display = 'none';
-                document.getElementById('music-container').style.display = 'block';
-            } else {
-                registerError.textContent = 'Registration failed.';
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('register-container').style.display = 'none';
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('music-container').style.display = 'block';
+                } else {
+                    registerError.textContent = data.message;
+                }
+            } catch (error) {
+                registerError.textContent = 'An error occurred.';
             }
         });
 
-        document.getElementById('register-link').addEventListener('click', function() {
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('register-container').style.display = 'block';
+        // Function to handle user login
+        document.getElementById('login-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginError = document.getElementById('login-error');
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('music-container').style.display = 'block';
+                } else {
+                    loginError.textContent = data.message;
+                }
+            } catch (error) {
+                loginError.textContent = 'An error occurred.';
+            }
         });
 
-        document.getElementById('login-link').addEventListener('click', function() {
-            document.getElementById('register-container').style.display = 'none';
-            document.getElementById('login-container').style.display = 'block';
+        // Function to handle user logout
+        async function logout() {
+            try {
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('music-container').style.display = 'none';
+                    document.getElementById('login-container').style.display = 'block';
+                } else {
+                    console.error(data.message);
+                }
+            } catch (error) {
+                console.error('An error occurred.');
+            }
+        }
+
+        document.getElementById('advertise-btn').addEventListener('click', function() {
+            window.location.href = 'https://your-advertise-form-url.com';
         });
 
         // Example data and functionality for music library
