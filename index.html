@@ -109,6 +109,7 @@
             width: 100%;
             height: 315px;
             margin-bottom: 10px;
+            cursor: pointer;
         }
         .nav-content h2 {
             margin-top: 0;
@@ -120,6 +121,22 @@
             margin: 20px 0;
             font-size: 14px;
             color: #555;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .grid-item iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
         }
         footer {
             background-color: #333;
@@ -162,6 +179,16 @@
             const slides = document.querySelectorAll('.carousel-item');
             currentIndex = (currentIndex - 1 + slides.length) % slides.length;
             document.querySelector('.carousel-wrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        function openFullscreen(video) {
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) { // Safari
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) { // IE11
+                video.msRequestFullscreen();
+            }
         }
 
         window.onload = function() {
@@ -227,44 +254,86 @@
         <h2>Retro Movies</h2>
         <div class="section-header">A selection of classic films from the past.</div>
         <div class="about">Our collection of Retro Movies includes timeless classics that have shaped cinema history. All content is in the public domain, free to watch, and offers a nostalgic journey back in time.</div>
-        <iframe src="https://www.youtube.com/embed/lP2EajpzK-s" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/bY3T4nuipkU" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/-8EJ9uhsfQQ" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/KrJxbMj8EaE" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/G_Frl_QRVqs" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/83GiOsCO42M" frameborder="0" allowfullscreen></iframe>
+        <div class="grid-container">
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/lP2EajpzK-s" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/bY3T4nuipkU" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/-8EJ9uhsfQQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/KrJxbMj8EaE" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
 
     <div id="documentaries" class="nav-content">
         <h2>Documentaries</h2>
-        <div class="section-header">Explore in-depth documentaries on various topics.</div>
-        <div class="about">Discover insightful documentaries that provide a deeper understanding of historical events, cultures, and more. All videos are public domain and available for free viewing.</div>
-        <iframe src="https://www.youtube.com/embed/F9q125CUk8o" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys" frameborder="0" allowfullscreen></iframe>
+        <div class="section-header">Explore a variety of fascinating documentaries.</div>
+        <div class="about">Our documentary section includes in-depth looks into historical events, cultures, and more. All videos are public domain and available for free viewing.</div>
+        <div class="grid-container">
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/F9q125CUk8o" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
 
     <div id="retro-comedy" class="nav-content">
         <h2>Retro Comedy</h2>
         <div class="section-header">Laugh with classic comedy films.</div>
         <div class="about">Enjoy a collection of retro comedies that promise to entertain and amuse. These public domain films are available for free and offer a delightful glimpse into comedic history.</div>
-        <iframe src="https://www.youtube.com/embed/Xd6ddOlbKp8" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/VfD_LTad1hE" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/RlrZq6oHRZM" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/Aj9oWavyOHM" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/pjeDY8wR5ow" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/hsiEEOSzUuo" frameborder="0" allowfullscreen></iframe>
+        <div class="grid-container">
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/Xd6ddOlbKp8" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/VfD_LTad1hE" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/RlrZq6oHRZM" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/Aj9oWavyOHM" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/pjeDY8wR5ow" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/hsiEEOSzUuo" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
 
     <div id="kids" class="nav-content">
         <h2>Kids</h2>
         <div class="section-header">Fun videos for children.</div>
         <div class="about">Our Kids section offers a variety of entertaining and educational videos for children. All content is public domain, making it safe and free to watch.</div>
-        <iframe src="https://www.youtube.com/embed/msM29o87uTs" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/LUexXsF14Z0" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/G_Frl_QRVqs" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/83GiOsCO42M" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/8bbj-HKa9js" frameborder="0" allowfullscreen></iframe>
+        <div class="grid-container">
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/msM29o87uTs" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/LUexXsF14Z0" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/G_Frl_QRVqs" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/83GiOsCO42M" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="grid-item" onclick="openFullscreen(this.querySelector('iframe'))">
+                <iframe src="https://www.youtube.com/embed/8bbj-HKa9js" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
 
     <footer>
