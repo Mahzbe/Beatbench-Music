@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BenchTube - Retro Movies, Documentaries, and Comedy</title>
+    <title>BenchTube - Retro Movies, Documentaries, Comedy, and Kids</title>
     <style>
-        /* Basic styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -50,6 +49,20 @@
             height: 315px;
             border-radius: 5px;
         }
+        .see-more {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .see-more button {
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
         footer {
             background-color: #333;
             color: white;
@@ -58,6 +71,14 @@
             margin-top: 20px;
         }
     </style>
+    <script>
+        function showMore(section) {
+            var hiddenElements = document.querySelectorAll('.' + section + '-more');
+            hiddenElements.forEach(function(element) {
+                element.classList.toggle('hidden');
+            });
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -70,7 +91,6 @@
         <a href="#">Retro Movies</a>
         <a href="#">Documentaries</a>
         <a href="#">Retro Comedy</a>
-        <a href="#">TV Shows</a>
         <a href="#">Kids</a>
         <a href="#">Search</a>
     </nav>
@@ -97,8 +117,13 @@
             </div>
         </div>
 
-        <!-- The Jungle Book 1942 -->
-        <div class="video-section">
+        <!-- See More Button for Retro Movies -->
+        <div class="see-more">
+            <button onclick="showMore('retro-movies')">See More</button>
+        </div>
+
+        <!-- Hidden Retro Movies -->
+        <div class="video-section retro-movies-more hidden">
             <iframe src="https://www.youtube.com/embed/-8EJ9uhsfQQ" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> The Jungle Book (1942)</p>
@@ -106,8 +131,7 @@
             </div>
         </div>
 
-        <!-- Winter Hawk -->
-        <div class="video-section">
+        <div class="video-section retro-movies-more hidden">
             <iframe src="https://www.youtube.com/embed/KrJxbMj8EaE" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> Winter Hawk</p>
@@ -127,8 +151,13 @@
             </div>
         </div>
 
-        <!-- September 11 Attacks Part 5 -->
-        <div class="video-section">
+        <!-- See More Button for Documentaries -->
+        <div class="see-more">
+            <button onclick="showMore('documentaries')">See More</button>
+        </div>
+
+        <!-- Hidden Documentaries -->
+        <div class="video-section documentaries-more hidden">
             <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> September 11 Attacks, Part 5</p>
@@ -136,8 +165,7 @@
             </div>
         </div>
 
-        <!-- Patrolling Streets of Baghdad (Iraq War) -->
-        <div class="video-section">
+        <div class="video-section documentaries-more hidden">
             <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> Patrolling Streets of Baghdad - Iraq War</p>
@@ -157,8 +185,13 @@
             </div>
         </div>
 
-        <!-- The Mouse That Roared -->
-        <div class="video-section">
+        <!-- See More Button for Retro Comedy -->
+        <div class="see-more">
+            <button onclick="showMore('retro-comedy')">See More</button>
+        </div>
+
+        <!-- Hidden Retro Comedy -->
+        <div class="video-section retro-comedy-more hidden">
             <iframe src="https://www.youtube.com/embed/VfD_LTad1hE" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> The Mouse That Roared</p>
@@ -166,8 +199,7 @@
             </div>
         </div>
 
-        <!-- The Fast Lady (1962) -->
-        <div class="video-section">
+        <div class="video-section retro-comedy-more hidden">
             <iframe src="https://www.youtube.com/embed/RlrZq6oHRZM" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> The Fast Lady (1962)</p>
@@ -175,8 +207,7 @@
             </div>
         </div>
 
-        <!-- The Boys in Blue -->
-        <div class="video-section">
+        <div class="video-section retro-comedy-more hidden">
             <iframe src="https://www.youtube.com/embed/Aj9oWavyOHM" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> The Boys in Blue</p>
@@ -184,8 +215,7 @@
             </div>
         </div>
 
-        <!-- Please Sir! -->
-        <div class="video-section">
+        <div class="video-section retro-comedy-more hidden">
             <iframe src="https://www.youtube.com/embed/pjeDY8wR5ow" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> Please Sir!</p>
@@ -193,12 +223,61 @@
             </div>
         </div>
 
-        <!-- A Weekend with Lulu -->
-        <div class="video-section">
+        <div class="video-section retro-comedy-more hidden">
             <iframe src="https://www.youtube.com/embed/hsiEEOSzUuo" frameborder="0" allowfullscreen></iframe>
             <div class="video-details">
                 <p><strong>Title:</strong> A Weekend with Lulu</p>
                 <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=hsiEEOSzUuo">Public Domain on YouTube</a></p>
+            </div>
+        </div>
+
+        <!-- Kids Section -->
+        <h2>Kids</h2>
+
+        <!-- The Wind in the Willows -->
+        <div class="video-section">
+            <iframe src="https://www.youtube.com/embed/msM29o87uTs" frameborder="0" allowfullscreen></iframe>
+            <div class="video-details">
+                <p><strong>Title:</strong> The Wind in the Willows</p>
+                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=msM29o87uTs">Public Domain on YouTube</a></p>
+            </div>
+        </div>
+
+        <!-- See More Button for Kids -->
+        <div class="see-more">
+            <button onclick="showMore('kids')">See More</button>
+        </div>
+
+        <!-- Hidden Kids -->
+        <div class="video-section kids-more hidden">
+            <iframe src="https://www.youtube.com/embed/LUexXsF14Z0" frameborder="0" allowfullscreen></iframe>
+            <div class="video-details">
+                <p><strong>Title:</strong> Leo and Tig</p>
+                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=LUexXsF14Z0">Public Domain on YouTube</a></p>
+            </div>
+        </div>
+
+        <div class="video-section kids-more hidden">
+            <iframe src="https://www.youtube.com/embed/G_Frl_QRVqs" frameborder="0" allowfullscreen></iframe>
+            <div class="video-details">
+                <p><strong>Title:</strong> Super Bear</p>
+                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=G_Frl_QRVqs">Public Domain on YouTube</a></p>
+            </div>
+        </div>
+
+        <div class="video-section kids-more hidden">
+            <iframe src="https://www.youtube.com/embed/83GiOsCO42M" frameborder="0" allowfullscreen></iframe>
+            <div class="video-details">
+                <p><strong>Title:</strong> King David</p>
+                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=83GiOsCO42M">Public Domain on YouTube</a></p>
+            </div>
+        </div>
+
+        <div class="video-section kids-more hidden">
+            <iframe src="https://www.youtube.com/embed/8bbj-HKa9js" frameborder="0" allowfullscreen></iframe>
+            <div class="video-details">
+                <p><strong>Title:</strong> Mother Theresa</p>
+                <p><strong>Source:</strong> <a href="https://www.youtube.com/watch?v=8bbj-HKa9js">Public Domain on YouTube</a></p>
             </div>
         </div>
     </div>
