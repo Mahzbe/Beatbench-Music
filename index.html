@@ -88,11 +88,21 @@
             }
         }
 
-        function showMore(section) {
-            var hiddenElements = document.querySelectorAll('.' + section + '-more');
-            hiddenElements.forEach(function(element) {
-                element.classList.toggle('hidden');
+        function showHomeScreen() {
+            var sections = document.querySelectorAll('.nav-content');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
             });
+
+            document.getElementById('home-screen').style.display = 'block';
+        }
+
+        function showMore() {
+            var hiddenElements = document.querySelectorAll('.nav-content');
+            hiddenElements.forEach(function(element) {
+                element.classList.remove('hidden');
+            });
+            document.getElementById('home-screen').style.display = 'none';
         }
     </script>
 </head>
@@ -103,6 +113,7 @@
     </header>
 
     <nav>
+        <a href="#" onclick="showHomeScreen()">Home</a>
         <a href="#" onclick="showSection('retro-movies')">Retro Movies</a>
         <a href="#" onclick="showSection('documentaries')">Documentaries</a>
         <a href="#" onclick="showSection('retro-comedy')">Retro Comedy</a>
@@ -111,6 +122,15 @@
     </nav>
 
     <div class="container">
+        <!-- Home Screen -->
+        <div id="home-screen">
+            <h2>Welcome to BenchTube</h2>
+            <p>Discover classic movies, fascinating documentaries, hilarious retro comedies, and kids' shows.</p>
+            <div class="see-more">
+                <button onclick="showMore()">Show More</button>
+            </div>
+        </div>
+
         <!-- Retro Movies Section -->
         <div id="retro-movies" class="nav-content">
             <h2>Retro Movies</h2>
@@ -133,13 +153,8 @@
                 </div>
             </div>
 
-            <!-- See More Button for Retro Movies -->
-            <div class="see-more">
-                <button onclick="showMore('retro-movies')">See More</button>
-            </div>
-
-            <!-- Hidden Retro Movies -->
-            <div class="video-section retro-movies-more hidden">
+            <!-- Additional Retro Movies -->
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/-8EJ9uhsfQQ" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> The Jungle Book (1942)</p>
@@ -147,7 +162,7 @@
                 </div>
             </div>
 
-            <div class="video-section retro-movies-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/KrJxbMj8EaE" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> Winter Hawk</p>
@@ -169,13 +184,8 @@
                 </div>
             </div>
 
-            <!-- See More Button for Documentaries -->
-            <div class="see-more">
-                <button onclick="showMore('documentaries')">See More</button>
-            </div>
-
-            <!-- Hidden Documentaries -->
-            <div class="video-section documentaries-more hidden">
+            <!-- Additional Documentaries -->
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/BGddnJlJpJQ" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> September 11 Attacks, Part 5</p>
@@ -183,7 +193,7 @@
                 </div>
             </div>
 
-            <div class="video-section documentaries-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/UNjZWAEx8ys" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> Patrolling Streets of Baghdad - Iraq War</p>
@@ -205,13 +215,8 @@
                 </div>
             </div>
 
-            <!-- See More Button for Retro Comedy -->
-            <div class="see-more">
-                <button onclick="showMore('retro-comedy')">See More</button>
-            </div>
-
-            <!-- Hidden Retro Comedy -->
-            <div class="video-section retro-comedy-more hidden">
+            <!-- Additional Retro Comedy -->
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/VfD_LTad1hE" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> The Mouse That Roared</p>
@@ -219,7 +224,7 @@
                 </div>
             </div>
 
-            <div class="video-section retro-comedy-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/RlrZq6oHRZM" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> The Fast Lady (1962)</p>
@@ -227,7 +232,7 @@
                 </div>
             </div>
 
-            <div class="video-section retro-comedy-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/Aj9oWavyOHM" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> The Boys in Blue</p>
@@ -235,7 +240,7 @@
                 </div>
             </div>
 
-            <div class="video-section retro-comedy-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/pjeDY8wR5ow" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> Please Sir!</p>
@@ -243,7 +248,7 @@
                 </div>
             </div>
 
-            <div class="video-section retro-comedy-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/hsiEEOSzUuo" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> A Weekend with Lulu</p>
@@ -265,13 +270,8 @@
                 </div>
             </div>
 
-            <!-- See More Button for Kids -->
-            <div class="see-more">
-                <button onclick="showMore('kids')">See More</button>
-            </div>
-
-            <!-- Hidden Kids -->
-            <div class="video-section kids-more hidden">
+            <!-- Additional Kids Content -->
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/LUexXsF14Z0" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> Leo and Tig</p>
@@ -279,7 +279,7 @@
                 </div>
             </div>
 
-            <div class="video-section kids-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/G_Frl_QRVqs" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> Super Bear</p>
@@ -287,7 +287,7 @@
                 </div>
             </div>
 
-            <div class="video-section kids-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/83GiOsCO42M" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> King David</p>
@@ -295,7 +295,7 @@
                 </div>
             </div>
 
-            <div class="video-section kids-more hidden">
+            <div class="video-section hidden">
                 <iframe src="https://www.youtube.com/embed/8bbj-HKa9js" frameborder="0" allowfullscreen></iframe>
                 <div class="video-details">
                     <p><strong>Title:</strong> Mother Theresa</p>
